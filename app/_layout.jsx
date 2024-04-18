@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View} from "react-native";
-
-import React from "react";
+import React from 'react';
+import { Text, View } from 'react-native';
+import { Slot } from 'expo-router';
 
 const RootLayout = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <>
+      <Text>Header</Text>
+      <Slot />
+      <Text className="text-2xl">123Footer</Text>
+    </>
   );
-}
+};
 
 export default RootLayout;
-
-const styles = StyleSheet.create({});
