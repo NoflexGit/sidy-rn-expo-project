@@ -1,24 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Sidy</Text>
-      <Link href={'/profile'}>Go to profile</Link>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView className="bg-primary h-full">
+      <Link href="/home" className="text-amber-50">
+        Go to home
+      </Link>
+      <StatusBar backgroundColor="#161622" style="light" />
+    </SafeAreaView>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
