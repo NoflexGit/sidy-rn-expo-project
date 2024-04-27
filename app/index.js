@@ -5,8 +5,13 @@ import { router, Redirect } from 'expo-router';
 
 import { images } from '../constants';
 import GradientButton from '../components/GradientButton';
+import { useGlobalContext } from '../context/GlobalProvider';
 
 const App = () => {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView

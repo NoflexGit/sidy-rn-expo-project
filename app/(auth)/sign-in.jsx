@@ -1,17 +1,36 @@
 import { useState } from 'react';
-import { Button, Image, ScrollView, Text, View } from 'react-native';
+import { Link, router } from 'expo-router';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import GradientButton from '../../components/GradientButton';
-import { Link } from 'expo-router';
+import { signIn } from '../../lib/appwrite';
 
 const SignIn = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert('Error', 'Please fill all fields');
+    }
+
+    setIsLoading(true);
+
+    try {
+      await signIn(form.email, form.password);
+
+      router.replace('/home');
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -41,7 +60,7 @@ const SignIn = () => {
             value={form.password}
             onChangeText={(value) => setForm({ ...form, password: value })}
           />
-          <GradientButton text="Sign In" />
+          <GradientButton text="Sign In" onPress={handleSubmit} />
           <View className="justify-center pt-5 gap-2 flex-row">
             <Text className="text-lg text-gray-100">
               Don't have an account?

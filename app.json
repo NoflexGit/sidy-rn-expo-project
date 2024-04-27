@@ -16,7 +16,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "com.noflex.sidy",
+
     },
     "android": {
       "adaptiveIcon": {

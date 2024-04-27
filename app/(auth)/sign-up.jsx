@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
-import { Link } from 'expo-router';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
+import { Link, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import GradientButton from '../../components/GradientButton';
+import { createUser } from '../../lib/appwrite';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -12,6 +13,24 @@ const SignUp = () => {
     password: '',
     username: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!form.email || !form.password || !form.username) {
+      Alert.alert('Error', 'Please fill all fields');
+    }
+
+    setIsLoading(true);
+
+    try {
+      const user = await createUser(form.email, form.password, form.username);
+
+      router.replace('/home');
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -28,7 +47,7 @@ const SignUp = () => {
           <FormField
             label="Username"
             textClassName="mb-6"
-            value={form.email}
+            value={form.username}
             placeholder="Enter your username"
             onChangeText={(value) => setForm({ ...form, username: value })}
           />
@@ -49,7 +68,7 @@ const SignUp = () => {
             value={form.password}
             onChangeText={(value) => setForm({ ...form, password: value })}
           />
-          <GradientButton text="Sign Up" />
+          <GradientButton text="Sign Up" onPress={handleSubmit} />
           <View className="justify-center pt-5 gap-2 flex-row">
             <Text className="text-lg text-gray-100">Have an account?</Text>
             <Link
