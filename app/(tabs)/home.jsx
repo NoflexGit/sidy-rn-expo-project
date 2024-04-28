@@ -9,11 +9,12 @@ import SearchField from '../../components/SearchField';
 import VideoCard from '../../components/VideoCard';
 import EmptyState from '../../components/EmptyState';
 import Trending from '../../components/Trending';
-import { getAllVideos } from '../../lib/appwrite';
+import { getAllVideos, getLatestPosts } from '../../lib/appwrite';
 import useAppwrite from '../../lib/useAppwrite';
 
 const Home = () => {
   const { data: videos, refetch } = useAppwrite(getAllVideos);
+  const { data: latestPosts } = useAppwrite(getLatestPosts);
   const { user } = useGlobalContext();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -55,22 +56,7 @@ const Home = () => {
               <Text className="text-gray-100 text-lg font-pregular mb-4">
                 Trending Videos
               </Text>
-              <Trending
-                posts={[
-                  {
-                    $id: '1',
-                    title: 'Post 1',
-                  },
-                  {
-                    $id: '2',
-                    title: 'Post 2',
-                  },
-                  {
-                    $id: '3',
-                    title: 'Post 3',
-                  },
-                ]}
-              />
+              <Trending videos={latestPosts ?? []} />
             </View>
           </View>
         }
