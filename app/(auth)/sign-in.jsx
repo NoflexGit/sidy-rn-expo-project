@@ -6,9 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import GradientButton from '../../components/GradientButton';
-import { signIn } from '../../lib/appwrite';
+import { getCurrentUser, signIn } from '../../lib/appwrite';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const SignIn = () => {
+  const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -24,6 +26,11 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password);
+
+      const user = await getCurrentUser();
+
+      setUser(user);
+      setIsLoggedIn(true);
 
       router.replace('/home');
     } catch (error) {

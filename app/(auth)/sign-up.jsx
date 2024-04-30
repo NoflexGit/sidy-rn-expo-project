@@ -6,8 +6,10 @@ import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import GradientButton from '../../components/GradientButton';
 import { createUser } from '../../lib/appwrite';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const SignUp = () => {
+  const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -24,6 +26,9 @@ const SignUp = () => {
 
     try {
       const user = await createUser(form.email, form.password, form.username);
+
+      setUser(user);
+      setIsLoggedIn(true);
 
       router.replace('/home');
     } catch (error) {
