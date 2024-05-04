@@ -1,10 +1,13 @@
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Bookmark = () => {
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <SafeAreaView className="bg-primary h-full">
+      <ScrollView className="px-4">
+        <Text>Profile</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
